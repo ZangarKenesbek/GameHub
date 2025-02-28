@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Game List</h1>
+
+    <form method="GET" action="" style="margin-bottom: 20px;">
+        <input type="text" name="title" placeholder="Search by title" value="{{ request.GET.title|default:'' }}">
+        <input type="text" name="genre" placeholder="Search by genre" value="{{ request.GET.genre|default:'' }}">
+        <input type="number" step="0.1" name="min_rating" placeholder="Min Rating" value="{{ request.GET.min_rating|default:'' }}">
+        <button type="submit">Filter</button>
+        <a href="/games/" style="margin-left: 10px;">Reset</a>
+    </form>
+
+    <div class="games-grid">
+        {% for game in game_list %}
+            <div class="game-card">
+                <a href="/game/{{ game.game.id }}/">
+                    <h3>{{ game.game.title }}</h3>
+                </a>
+                <p>⭐ Rating: {{ game.game_rating|default:"N/A" }}</p>
+                <p>🎭 Genre: {{ game.game.genre }}</p>
+            </div>
+        {% empty %}
+            <p>No games available.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
